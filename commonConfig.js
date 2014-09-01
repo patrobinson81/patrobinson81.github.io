@@ -8,6 +8,12 @@ define(
                 geometry: {
                     url: location.protocol + "//utility.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer"
                 },
+                printTask: {
+                    url: location.protocol + "//utility.arcgisonline.com/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task"
+                },
+                elevationSync: {
+                    url: location.protocol + "//elevation.arcgis.com/arcgis/rest/services/Tools/ElevationSync/GPServer"
+                },
                 geocode: [{
                     url: location.protocol + "//geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer"
        }]
