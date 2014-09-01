@@ -6,7 +6,7 @@ define(
             units: null,
             helperServices: {
                 geometry: {
-                    url: location.protocol + "http://tasks.arcgisonline.com/arcgis/rest/services/Geometry/GeometryServer"
+                    url: location.protocol + "//utility.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer"
                 },
                 geocode: [{
                     url: location.protocol + "//geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer"
