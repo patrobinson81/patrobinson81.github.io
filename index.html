@@ -1,245 +1,90 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title></title>
-    <link rel="stylesheet" type="text/css" href="//js.arcgis.com/3.9/js/dojo/dijit/themes/claro/claro.css">
-    <link rel="stylesheet" type="text/css" href="//js.arcgis.com/3.9/js/dojo/dijit/themes/claro/document.css">
-
-    <link rel="stylesheet" type="text/css" href="//js.arcgis.com/3.9/js/dojo/dojox/layout/resources/FloatingPane.css">
-
-    <link rel="stylesheet" type="text/css" href="//js.arcgis.com/3.9/js/esri/css/esri.css" />
-
-    <link rel="stylesheet" type="text/css" href="css/layout.css">
-    <!--[if IE]>
-      <link rel="stylesheet" type="text/css" href="css/ie.css" />
+    <!-- Define the versions of IE that will be used to render the page. See Microsoft documentation for details. Optional. -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <meta charset="utf-8">
+    <!--Use protocol relative urls that way if the browser is viewing the page via HTTPS the js/css file will be requested using the HTTPS protocol-->
+    <link rel="stylesheet" href="//js.arcgis.com/3.10/js/esri/css/calcite/calcite.css">
+    <link rel="stylesheet"  href="//js.arcgis.com/3.10/js/esri/css/esri.css">
+    <!--Load any application specific styles-->
+    <link rel="stylesheet" href="css/main.css">
+    <!--[if (lt IE 9)]>
+      <script  src="js/selectivizr-min.js"></script>
+      <link rel="stylesheet" href="css/ie.css"/>
     <![endif]-->
+</head>
+<body class="calcite app-loading">
+   <!--The ArcGIS API for JavaScript provides bidirectional support.  When viewing the application in an right to left (rtl) language like Hebrew and Arabic the map needs to remain in left-to-right (ltr) mode. Specify this by setting the dir attribute on the div to ltr. --> 
+       <div id="border_container" class="border-container-outer">
+        <div id="cp_left" class="content-pane-left">
+          <div id="ac-container" class="ac-container hidden">
+             <div id="legend-cont">
+                 <input id="legend-ac" type="checkbox" checked/>
+                 <label class="ac-label ab fc" id="legend-label" for="legend-ac"></label>
+                 <div class="article ac-large" id="legendDiv"></div>
+             </div>
+             <div id="about-cont">
+                <input id="about-ac" type="checkbox" checked/>
+                <label class="ac-label ab fc" id="about-label" for="about-ac"></label>
+                <div class="article ac-medium" id="aboutDiv"></div>
+             </div>
+          </div>
+        </div>
+        <div id="cp_center" class="content-pane-center">
+            <div class="top-bar bg">
+                <i id="toggle_button" class="hamburger-button icon-menu fc"></i> 
+                <div id="title" class="top-bar-title"></div>
+                <div id="search" class="geocoder"></div>
+            </div>
+         <div id="mapDiv" dir="ltr"></div>
+        </div>
+    </div>
     <script type="text/javascript">
-        var path_location = "http://patrobinson81.github.io" + location.pathname.replace(/\/[^/]+$/, '');
+        var package_path = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/'));
         var dojoConfig = {
-            parseOnLoad: true,
+            // The locationPath logic below may look confusing but all its doing is 
+            // enabling us to load the api from a CDN and load local modules from the correct location.
             packages: [{
-                name: "esriTemplate",
-                location: path_location
-      }, {
-                name: "utilities",
-                location: path_location + '/javascript'
-      }, {
-                name: "apl",
-                location: path_location + '/apl'
-      }, {
-                name: "templateConfig",
-                location: path_location
-      }]
+                name: "application",
+                location: package_path + '/js'
+            }, {
+                name: "config",
+                location: package_path + '/config'
+            }]
         };
     </script>
-    <script type="text/javascript" src="//js.arcgis.com/3.9/">
-    </script>
+    <script type="text/javascript" src="//js.arcgis.com/3.10/"></script>
     <script type="text/javascript">
-        dojo.require("esri.layout");
-    </script>
-
-    <script type="text/javascript" src="javascript/layout.js">
-    </script>
-    <script type="text/javascript">
-        dojo.require("utilities.App");
-        dojo.require("dojo.on");
-        dojo.require("templateConfig.commonConfig");
-
-
-
-        var i18n;
-        dojo.ready(function () {
-
-
-            i18n = dojo.i18n.getLocalization("esriTemplate", "template");
-            var defaults = {
-                //The ID for the map from ArcGIS.com
-                webmap: "48fe49e79da4459d9356d4b22fc06cc6",
-                //Modify this to point to your sharing service URL if you are using the portal
-                sharingurl: "http://www.arcgis.com", //for example: "http://www.arcgis.com",
-                //The id for the web mapping application item that contains configuration info - in most
-                ////When editing you need to specify a proxyurl (see below) if the service is on a different domain
-                //Specify a proxy url if you will be editing, using the elevation profile or have secure services or web maps that are not shared with everyone.
-                proxyurl: "",
-                //cases this will be null.
-                appid: "",
-                //set to true to display the title
-                displaytitle: true,
-                //Enter a title, if no title is specified, the webmap's title is used.
-                title: "René sur la route de Compostelle",
-                //Enter a description for the application. This description will appear in the left pane
-                //if no description is entered the webmap description will be used.
-                description: "",
-                //specify an owner for the app - used by the print option. The default value will be the web map's owner
-                owner: '',
-                //Specify a color theme for the app. Valid options are gray,blue,purple,green and orange
-                theme: 'gray',
-                //Optional tools - set to false to hide the tool
-                //set to false to hide the zoom slider on the map
-                displayslider: true,
-                displaymeasure: true,
-                displaybasemaps: true,
-                displayoverviewmap: true,
-                displayeditor: true,
-                displaylegend: true,
-                displaysearch: true,
-                displaylayerlist: true,
-                displaybookmarks: false,
-                displaydetails: true,
-                displaytimeslider: true,
-                displayprint: true,
-                displayprintlegend: false,
-                displayeditortoolbar: false,
-                displaymapwidgets: true,
-                //i18n.viewer.main.scaleBarUnits,
-                //The elevation tool uses the  measurement tool to draw the lines. So if this is set
-                //to true then displaymeasure needs to be true too. NOTE: THis tool is deprecated and should no 
-                //longer be used in the Basic Viewer. Use the new version of the template instead
-                //https://github.com/Esri/elevation-profile-template
-                displayelevation: false,
-                //This option is used when the elevation chart is displayed to control what is displayed when users mouse over or touch the chart. When true, elevation gain/loss will be shown from the first location to the location under the cursor/finger.
-                showelevationdifference: false,
-                displayscalebar: true,
-                displayshare: true,
-                //Set to true to display the left panel on startup. The left panel can contain the legend, details and editor. Set to true to
-                //hide left panel on initial startup. 2
-                leftPanelVisibility: true,
-                //If the webmap uses Bing Maps data, you will need to provide your Bing Maps Key
-                bingmapskey: commonConfig.bingMapsKey,
-                //Get the default map units
-                units: commonConfig.units,
-                //specify a group in ArcGIS.com that contains the basemaps to display in the basemap gallery
-                //example: title:'ArcGIS Online Basemaps' , owner:esri
-                basemapgroup: {
-                    title: null,
-                    owner: null
-                },
-                //Enter the URL's to the geometry service, print task and geocode service. 
-                helperServices: commonConfig.helperServices,
-                //Set the label in the nls file for your browsers language
-                printlayouts: [{
-                    layout: 'Letter ANSI A Landscape',
-                    label: i18n.tools.print.layouts.label1,
-                    format: 'PDF'
-        }, {
-                    layout: 'Letter ANSI A Portrait',
-                    label: i18n.tools.print.layouts.label2,
-                    format: 'PDF'
-        }, {
-                    layout: 'Letter ANSI A Landscape',
-                    label: i18n.tools.print.layouts.label3,
-                    format: 'PNG32'
-        }, {
-                    layout: 'Letter ANSI A Portrait',
-                    label: i18n.tools.print.layouts.label4,
-                    format: 'PNG32'
-        }],
-                printlayout: false,
-                printformat: "PNG32",
-                //Specify the geocoder options. By default uses the geocoder widget with the default locators. If you specify a url value then that locator will be used.
-                placefinder: {
-                    "url": "",
-                    "countryCode": "",
-                    "currentExtent": false,
-                    "placeholder": "",
-                    "singleLineFieldName": ""
-                },
-                //when true locations searches use the current map extent. 
-                searchextent: false,
-                //Set link text and url parameters if you want to display clickable links in the upper right-corner
-                //of the application.
-                //ArcGIS.com. Enter link values for the link1 and link2 and text to add links. For example
-                //url:'http://www.esri.com',text:'Esri'
-                link1: {
-                    url: '',
-                    text: ''
-                },
-                link2: {
-                    url: '',
-                    text: ''
-                },
-                //specify the width of the panel that holds the editor, legend, details
-                leftpanewidth: 228,
-                //Restrict the map's extent to the initial extent of the web map. When true users
-                //will not be able to pan/zoom outside the initial extent.
-                constrainmapextent: false,
-                //Provide an image and url for a logo that will be displayed as a clickable image
-                //in the lower right corner of the map. If nothing is specified then the esri logo will appear.
-                customlogo: {
-                    image: '',
-                    link: ''
-                },
-                //embed = true means the margins will be collapsed to just include the map no title or links
-                embed: false
-            };
-            var supportsLocalization = true;
-            var app = new utilities.App(defaults, supportsLocalization);
-            dojo.on(app, "ready", function (config) {
-
-                initMap(config);
+        require([
+            "dojo/on",
+            "application/main",
+            "application/template",
+            "dojo/domReady!"
+        ], function(
+            on,
+            Main,
+            Template
+        ){
+            //create the template. This will take care of all the logic required for template applications 
+            //If you need localization set the supportsLocalization value to true to get the localized strings 
+            //from the javascript/nls/resource files. 
+            //Note that we've included a placeholder nls folder and a resource file with one error string
+            //to show how to setup the strings file.
+            
+            var supportsLocalization = true; //defaults to true
+            
+            var myTemplate = new Template(supportsLocalization);
+            
+            on(myTemplate, "ready", function(config) {
+                //The config object contains the following properties: helper services, (optionally) 
+                //i18n, appid, webmap and any custom values defined by the application. 
+                //In this example we have one called theme. 
+                Main(config);
             });
-
         });
-    </script>
-</head>
-
-<body class="claro">
-    <div id="bc" data-dojo-type="dijit.layout.BorderContainer" data-dojo-props="design:'headline', gutters:false" style="width:100%; height:100%;padding:0;">
-        <!-- Header Section-->
-        <div id="header" data-dojo-type="dijit.layout.ContentPane" data-dojo-props="region:'top'">
-            <!--Title dyanmically generated -->
-            <div id="nav" style='display:none;'>
-                <!-- links are dynamically generated-->
-                <ul>
-                    <li id="link1List"></li>
-                    <li>|</li>
-                    <li id="link2List"></li>
-                </ul>
-            </div>
-        </div>
-        <!--End Header-->
-        <!-- Main Content Section (map, toolbars, left panel)-->
-        <div id="mainWindow" data-dojo-type="dijit.layout.ContentPane" data-dojo-props="region:'center'" style="width:100%;height:100%;">
-            <div data-dojo-type="dijit.layout.BorderContainer" data-dojo-props="design:'headline',gutters:false" style="width:100%;height:100%;padding:0;">
-                <!-- Toolbar (Search Basemap Measure)-->
-                <div id="toolbarContainer_bv" data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"top"'>
-                    <div data-dojo-type="dijit.Toolbar">
-                        <div id="webmap-toolbar-left">
-                            <!--Toolbar buttons (Legend, Details, Edit) created dynamically-->
-                        </div>
-                        <div id="webmap-toolbar-right">
-                            <!--create the search tool-->
-                        </div>
-                        <div id="webmap-toolbar-center">
-                            <!--Basemap,measure,share,time and layer list tools added if enabled-->
-                        </div>
-                    </div>
-                </div>
-                <!--End Toolbar-->
-                <!--Left Panel-->
-                <div data-dojo-type="dijit.layout.BorderContainer" id="leftPane" data-dojo-props="design:'headline', gutters:false,region:'left'" style="height:100%;padding:0;display:none;"></div>
-                <!--End Left Panel-->
-                <!-- Map Section -->
-                <div id="map" data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"center"' dir="ltr">
-                    <div id="logo" class="logo" style="display:none;">
-                        <!--If a logo is specified in config section then the logo will be added
-              to the map-->
-                    </div>
-                    <!--Floating window that contains the measure dijit-->
-                    <div id="floater">
-                        <div id="measureDiv"></div>
-                    </div>
-                    <!--Floating window contains the time slider-->
-                    <div id="timeFloater" style='display:none;'></div>
-                </div>
-                <!--end Map section-->
-            </div>
-        </div>
-        <div id="bottomPane" dojotype="dijit.layout.ContentPane" region="bottom" gutters="false" style="display:none;margin:10px 5px;width:auto;height:275px;background-color:white;"></div>
-        <!-- End Main Content section-->
-    </div>
+    </script>   
 </body>
-
 </html>

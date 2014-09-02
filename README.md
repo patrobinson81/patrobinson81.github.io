@@ -1,46 +1,29 @@
-basic-viewer-template
-=====================
-*Basic Viewer* is a configurable application template that enables you to display an ArcGIS web map using a variety of tools. 
+simple-map-viewer-template
+==========================
 
-![Screen Shot](https://dl.dropboxusercontent.com/u/24627279/screenshots/basic_viewer_1.jpg)
+Simple Map Viewer is a configurable application template that provides a simple and easy to use framework for viewing web maps in browsers or devices.
 
-[View it live] (http://www.arcgis.com/apps/OnePane/basicviewer/index.html?webmap=f5b13dbed07c46cdb783cf361833aa6b)
+[![Screenshot](https://dl.dropboxusercontent.com/u/24627279/screenshots/simple_th.png "Screenshot")](http://www.arcgis.com/apps/SimpleViewer/index.html?webmap=6c4e81f90c4b4935945e9b623c5247e0)
+
+
+[View it live] (http://www.arcgis.com/apps/SimpleViewer/index.html?webmap=6c4e81f90c4b4935945e9b623c5247e0)
 
 #Features
-The template can be configured using the following options:
+**Simple Map Viewer** is a configurable application template that provides a simple user experience for exploring any web map. It has been designed to support a variety of form factors - browsers, phones, and tablets. The template can be configured with the following option: 
 
-- **Map:** Choose the web map used in your application.
-- **Color Scheme:** Choose between five color schemes for the application (Blue, Gray, Green, Orange, Purple).
-- **Show Title:** Choose whether to include an application title. 
+- **Map:** Choose the web map used in your application. 
 - **Title Text:** The application title. The default title is the web map name.
-- **Logo:** Choose a custom logo for your application.
-- **Overview Map:** Display a retractable overview map to add context for panning and zooming.
-- **Legend:** Display a legend for map layers. *
-- **Details:** Display the web map item description. *
-- **Editor:** Allows users to interactively create, modify, or delete features in editable layers. *
-- **Time Slider:** Enables the display of the time slider. *
-- **Print:** Enables printing the map at the current extent. It can be configured to include a legend and supports different layout options.
-- **Layer List:** Enables toggling the visibility of operational layers within the web map. *
-- **Basemaps:** Enables the display of the basemap gallery. 
-- **Bookmarks:** Enables the use of web map bookmarks for navigation. *
-- **Measure:** Enables measure tool for interactive area, length, and point measurement.
-- **Share:** Allows users to share the application with others via email, Twitter, or Facebook.
-- **Search:** Displays the Search box to enable navigation to addresses and places. 
-- **Search** for locations within current extent: Enable toggling of search within the current map extent only.
+- **Search:** Displays the search box to enable navigation to addresses and places. 
+- **About** Displays the web map description or custom content defined in the application configuration in an About panel. 
 
-*These options will appear in the application when the web map has properties or layers that support them.
-
-
-
+Simple Map Viewer can be accessed via the ArcGIS template gallery or item details. The application source code can be downloaded for further customization and published from your own web server.
 #Instructions
 
-1. Download and unzip the .zip file or clone the repo.
-2. Web-enable the directory. 
-3. Access the .html page in a browser
+1. Download and unzip the .zip file or clone the repo. 
+2. Web-enable the directory
+3. Access the .html page 
+4. See the readme.html page for more details. 
 
-Note: If your application edits features in a feature service, contains secure services or web maps that aren't shared publicly or generates requests that exceed 200 characters you may need to setup and use a proxy page. Common situations where you may exceed the URL length are using complex polygons as input to a task or specifying a spatial reference using well-known text (WKT). For details on installing and configuring a proxy page see [Using a proxy page](https://developers.arcgis.com/javascript/jshelp/ags_proxy.html).
-
-For addtional customization options view the [wiki](https://github.com/Esri/basic-viewer-template/wiki). 
 
 #Requirements
 
@@ -51,6 +34,9 @@ For addtional customization options view the [wiki](https://github.com/Esri/basi
 #Resources
 
 - [ArcGIS API for JavaScript Resource Center](http://help.arcgis.com/en/webapi/javascript/arcgis/index.html)
+- [ArcGIS Online] (http://www.arcgis.com)
+- Want to create your own template? View the [Application Boilerplate](https://github.com/Esri/application-boilerplate-js) to get started. 
+- [View the Simple Map Viewer template on ArcGIS Online](http://www.arcgis.com/home/item.html?id=9ae78842d98a4178bd4a794449324349)
 
 #Issues
 Found a bug or want to request a new feature? Please let us know by submitting an issue. 
